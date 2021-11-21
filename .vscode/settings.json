@@ -2,6 +2,10 @@
   "files.associations": {
     "*.js": "javascriptreact",
     "iostream": "cpp",
-    "*.tcc": "cpp"
+    "*.tcc": "cpp",
+    "array": "cpp",
+    "any": "cpp",
+    "string_view": "cpp",
+    "regex": "cpp"
   }
 }

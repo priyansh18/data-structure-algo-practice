@@ -84,8 +84,31 @@ int diameter(Node* root) {
     return max(diameter1, max(diameter2, diameter3));
 }
 
-int diameterOptimized(Node* root){
-    
+class HDPair {
+   public:
+    int height;
+    int diameter;
+};
+
+HDPair diameterOptimized(Node* root) {
+    HDPair p;
+    if (root == NULL) {
+        p.height = p.diameter = 0;
+        return p;
+    }
+
+    HDPair Left = diameterOptimized(root->left);
+    HDPair Right = diameterOptimized(root->right);
+
+    p.height = max(Left.height,Right.height)+1;
+
+    int D1 = Left.height + Right.height;
+    int D2 = Left.height;
+    int D3 = Right.diameter;
+
+    p.diameter = max(D1,max(D2,D3));
+
+    return p;
 }
 
 int main() {
@@ -98,4 +121,5 @@ int main() {
     cout << endl;
     cout << "Height of Tree : " << heightBinaryTree(root) << endl;
     cout << "Diameter of Tree : " << diameter(root) << endl;
+    cout << "Optimised Diameter of Tree : " << diameterOptimized(root).diameter << endl;
 }

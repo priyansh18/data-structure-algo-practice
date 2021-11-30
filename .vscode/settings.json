@@ -7,6 +7,9 @@
     "any": "cpp",
     "string_view": "cpp",
     "regex": "cpp",
-    "ostream": "cpp"
-  }
+    "ostream": "cpp",
+    "queue": "cpp",
+    "list": "cpp"
+  },
+  "C_Cpp.errorSquiggles": "Disabled"
 }

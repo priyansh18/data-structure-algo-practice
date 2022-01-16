@@ -30,6 +30,34 @@ node* buildTree() {
     return n;
 }
 
+class HDpair {
+   public:
+    int height;
+    int diameter;
+
+};
+
+HDpair diameterBinaryTreeOptimized(node* root) {
+    HDpair p;
+    if (root == NULL) {
+        p.height = p.diameter = 0;
+        return p;
+    }
+
+    HDpair left = diameterBinaryTreeOptimized(root->left);
+    HDpair right = diameterBinaryTreeOptimized(root->right);
+
+    p.height = max(left.height, right.height) + 1;
+
+    int d1 = left.height + right.height;
+    int d2 = left.diameter;
+    int d3 = right.diameter;
+
+    p.diameter = max(d1, max(d2, d3));
+
+    return p;
+}
+
 int heightBinaryTree(node* root) {
     // Base Case
     if (root == NULL) {
@@ -58,4 +86,5 @@ int main() {
     node* t = buildTree();
     cout << heightBinaryTree(t) << endl;
     cout << diameterBinaryTree(t) << endl;
+    cout << diameterBinaryTreeOptimized(t).diameter << endl;
 }

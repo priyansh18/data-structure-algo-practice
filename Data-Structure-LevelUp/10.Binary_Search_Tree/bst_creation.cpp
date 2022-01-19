@@ -15,6 +15,19 @@ class node {
     }
 };
 
+void toInsert(node*& root, int data) {
+    if (root == NULL) {
+        root = new node(data);
+        return;
+    }
+    if (data < root->data) {
+        toInsert(root->left, data);
+    }
+    if (data > root->data) {
+        toInsert(root->right, data);
+    }
+}
+
 node* buildTree() {
     node* root = NULL;
     int data;
@@ -37,23 +50,6 @@ bool search(node* root, int target) {
     } else {
         return search(root->right, target);
     }
-}
-
-void toInsert(node*& root, int data) {
-    if (root == NULL) {
-        root = new node(data);
-        return;
-    }
-    if (data < root->data) {
-        toInsert(root->left, data);
-    }
-    if (data > root->data) {
-        toInsert(root->right, data);
-    }
-}
-
-node* heightBalancedBst(){
-
 }
 
 void printTree(node* root) {
@@ -81,7 +77,4 @@ int main() {
         cout << "Element not found";
     }
     cout << endl;
-
-    
-
 }

@@ -10,7 +10,9 @@
     "ostream": "cpp",
     "queue": "cpp",
     "list": "cpp",
-    "string": "cpp"
+    "string": "cpp",
+    "unordered_map": "cpp",
+    "map": "cpp"
   },
   "C_Cpp.errorSquiggles": "Disabled"
 }

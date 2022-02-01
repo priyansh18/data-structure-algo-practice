@@ -31,52 +31,6 @@ class Graph {
             cout << endl;
         }
     }
-
-    void breadthFirstSearch(int source, int dest = -1) {
-        queue<int> q;
-        unordered_map<int, bool> m;
-        vector<int> dist(V, 0);
-        vector<int> parent(V, -1);
-
-        for (int i = 0; i < V; i++) {
-            m[i] = false;
-        }
-
-        q.push(source);
-        m[source] = true;
-        parent[source] = source;
-        dist[source] = 0;
-
-        while (!q.empty()) {
-            int f = q.front();
-            cout << f << ",";
-            q.pop();
-            for (auto node : l[f]) {
-                if (!m[node]) {
-                    q.push(node);
-                    parent[node] = f;
-                    dist[node] = dist[f] + 1;
-                    m[node] = true;
-                }
-            }
-        }
-        cout << endl;
-
-        // Shortest Distance
-        for (int i = 0; i < V; i++) {
-            cout << "Shortest Distance to " << i << " is " << dist[i] << endl;
-        }
-
-        // Print the path from  a source to the destination
-        if (dest != -1) {
-            int temp = dest;
-            while (temp != source) {
-                cout << temp << "---";
-                temp = parent[temp];
-            }
-            cout << source;
-        }
-    }
 };
 
 int main() {
@@ -92,8 +46,4 @@ int main() {
     g.addEdge(3, 4);
 
     g.printAdjacencyList();
-
-    g.breadthFirstSearch(1);
-    cout << endl;
-    g.breadthFirstSearch(1, 6);
 }

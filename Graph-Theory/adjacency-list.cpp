@@ -52,6 +52,7 @@ struct Graph {
             cout << src;
         }
     }
+    
     void printList() {
         for (int i = 0; i < V; i++) {
             cout << "i " << i << " : ";
@@ -95,18 +96,81 @@ struct Graph {
         vector<bool> visited(V, false);
         depthFirstSearchHelper(src, visited);
     }
+
+    int dfs(vector<vector<int>> grid, vector<vector<bool>>& visited, int i,
+            int j, int m, int n) {
+        visited[i][j] = true;
+        int current_size = 1;
+
+        int dx[] = {0, 1, 0, -1};
+        int dy[] = {-1, 0, 1, 0};
+
+        for (int k = 0; k < 4; k++) {
+            int newX = i + dx[k];
+            int newY = j + dy[k];
+
+            if (newX >= 0 and newY >= 0 and newX < m and newY < n and
+                grid[newX][newY] == 1 and !visited[newX][newY]) {
+                int subComponent = dfs(grid, visited, newX, newY, m, n);
+                current_size += subComponent;
+            }
+        }
+
+        return current_size;
+    }
+
+    int largestIsland(vector<vector<int>> grid) {
+        int m = grid.size();
+        int n = grid[0].size();
+
+        vector<vector<bool>> visited(m, vector<bool>(n, false));
+
+        int largest_island = 0;
+
+        for (int i = 0; i < m; i++) {
+            for (int j = 0; j < n; j++) {
+                if (!visited[i][j] and grid[i][j] == 1) {
+                    int value = dfs(grid, visited, i, j, m, n);
+                    largest_island = max(largest_island, value);
+                }
+            }
+        }
+
+        return largest_island;
+    }
+
+    bool dfsCycle(int node, vector<bool>& visited, vector<int>& parent) {
+        
+        for (auto nbr : l[node]) {
+            if (!visited[nbr]) {
+                parent[nbr] = node;
+                visited[node] = true;
+                if (dfsCycle(nbr, visited, parent)) {
+                    return true;
+                }
+            } else if (parent[node] != nbr) {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+    bool cycleDetectionUndirected(int src) {
+        vector<bool> visited(V, false);
+        vector<int> parent(V, -1);
+        return dfsCycle(src, visited, parent);
+    }
 };
 
 int main() {
-    Graph g(7);
+    Graph g(6);
     g.addEdge(0, 1);
     g.addEdge(1, 2);
     g.addEdge(2, 3);
-    g.addEdge(3, 5);
-    g.addEdge(5, 6);
-    g.addEdge(4, 5);
     g.addEdge(0, 4);
-    g.addEdge(3, 4);
+    g.addEdge(4, 5);
+    g.addEdge(5, 0);
 
     g.printList();
 
@@ -118,5 +182,17 @@ int main() {
 
     cout << endl;
 
-    g.printShortestPath(1, 6);
+    g.printShortestPath(0, 5);
+
+    cout << endl;
+
+    vector<vector<int>> grid = {{1, 0, 0, 1, 0},
+                                {1, 0, 1, 0, 0},
+                                {0, 0, 1, 0, 1},
+                                {1, 0, 1, 1, 1},
+                                {1, 0, 1, 1, 0}};
+
+    cout << g.largestIsland(grid) << endl;
+
+    cout << g.cycleDetectionUndirected(0) << endl;
 }

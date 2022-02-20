@@ -13,7 +13,8 @@
     "string": "cpp",
     "unordered_map": "cpp",
     "map": "cpp",
-    "new": "cpp"
+    "new": "cpp",
+    "vector": "cpp"
   },
   "C_Cpp.errorSquiggles": "Disabled"
 }

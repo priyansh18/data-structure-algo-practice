@@ -14,7 +14,8 @@
     "unordered_map": "cpp",
     "map": "cpp",
     "new": "cpp",
-    "vector": "cpp"
+    "vector": "cpp",
+    "ratio": "cpp"
   },
   "C_Cpp.errorSquiggles": "Disabled"
 }

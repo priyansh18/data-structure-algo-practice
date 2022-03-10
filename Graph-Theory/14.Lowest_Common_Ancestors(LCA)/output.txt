@@ -1,0 +1,11 @@
+Lowest Common Ancestor is : 5 sdf 6
+5 sdf 6
+2
+Lowest Common Ancestor is : 5 sdf 5
+5
+Lowest Common Ancestor is : 12 sdf 10
+dferngt3 sdf 2
+1
+Lowest Common Ancestor is : 2 sdf 3
+2 sdf 3
+1

@@ -15,7 +15,8 @@
     "map": "cpp",
     "new": "cpp",
     "vector": "cpp",
-    "ratio": "cpp"
+    "ratio": "cpp",
+    "random": "cpp"
   },
   "C_Cpp.errorSquiggles": "Disabled"
 }

@@ -16,7 +16,9 @@
     "new": "cpp",
     "vector": "cpp",
     "ratio": "cpp",
-    "random": "cpp"
+    "random": "cpp",
+    "bitset": "cpp",
+    "set": "cpp"
   },
   "C_Cpp.errorSquiggles": "Disabled"
 }

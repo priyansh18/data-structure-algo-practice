@@ -18,7 +18,8 @@
     "ratio": "cpp",
     "random": "cpp",
     "bitset": "cpp",
-    "set": "cpp"
+    "set": "cpp",
+    "sstream": "cpp"
   },
   "C_Cpp.errorSquiggles": "Disabled"
 }

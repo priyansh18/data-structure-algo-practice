@@ -39,32 +39,30 @@ class TreeNode {
 
 class Solution {
    public:
-    void fillResult(TreeNode* root, vector<int>& result) {
-        if (root == NULL) return;
-        fillResult(root->left, result);
-        result.push_back(root->val);
-        fillResult(root->right, result);
-    }
     TreeNode* inorderSuccessor(TreeNode* root, TreeNode* p) {
-        if (root == NULL) return NULL;
-
-        vector<int> res;
-        fillResult(root, res);
-        if (res.size() == 1) return NULL;
-        int i = 0;
-        while (i < res.size()) {
-            if (res[i] == p->val) {
-                i++;
-                break;
+        if (root == NULL or p == NULL) return NULL;
+        if (p->right) {
+            TreeNode* temp = p->right;
+            while (temp->left) {
+                temp = temp->left;
             }
-            i++;
+            return temp;
         }
-
-        if (i > res.size()) {
-            return NULL;
-        } else {
-            TreeNode* n = new TreeNode(res[i]);
-            return n;
+        // If Node doesn't have a right child
+        else {
+            TreeNode* temp = root;
+            TreeNode* successor = NULL;
+            while (temp != NULL) {
+                if (temp->val > p->val) {
+                    successor = temp;
+                    temp = temp->left;
+                } else if (temp->val < p->val) {
+                    temp = temp->right;
+                } else {
+                    break;
+                }
+            }
+            return successor;
         }
     }
 };

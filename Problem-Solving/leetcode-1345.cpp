@@ -34,123 +34,68 @@ class Solution1 {
     }
 };
 
-class Graph {
-   public:
-    int V;
-    set<int>* l;
-
-    Graph(int v) {
-        this->V = v;
-        l = new set<int>[V];
-    }
-
-    void addEdge(int x, int y) { l[x].insert(y); }
-
-    void printList(vector<int> arr, int n) {
-        for (int i = 0; i < n; i++) {
-            cout << " i : " << i << "-----> ";
-            for (auto x : l[i]) {
-                cout << x << ",";
-            }
-            cout << endl;
-        }
-    }
-
-    int bfs(int src, int dest) {
-        vector<int> visited(V, false);
-        queue<int> q;
-        q.push(src);
-        q.push(-1);
-        visited[src] = 1;
-        int level = 0;
-        while (!q.empty()) {
-            auto temp = q.front();
-            q.pop();
-            if (temp == -1) {
-                level++;
-                if (!q.empty()) q.push(-1);
-            } else {
-                if (temp == dest) return level;
-                for (auto x : l[temp])
-                    if (!visited[x]) {
-                        q.push(x);
-                    }
-            }
-        }
-
-        return -1;
-    }
-};
-
+const int INF = 1e8 + 5;
 // Graph Approach
 class Solution2 {
    public:
     int minJumps(vector<int>& arr) {
         int n = arr.size();
-        Graph g(n);
-        for (int i = 0; i < n; i++) {
-            if (i + 1 < n) g.addEdge(i, i + 1);
-            if (i - 1 >= 0) g.addEdge(i, i - 1);
-            for (int j = 0; j < n; j++) {
-                if (i != j and arr[i] == arr[j]) {
-                    g.addEdge(i, j);
-                }
-            }
-        }
-
-        g.printList(arr, n);
-
-        return g.bfs(0, n - 1);
-    }
-};
-
-class Solution {
-   public:
-    int minJumps(vector<int>& arr) {
-        int n = arr.size();
         map<int, vector<int>> m;
+
         for (int i = 0; i < n; i++) {
             m[arr[i]].push_back(i);
         }
+
         vector<int> visited(n, 0);
+        vector<int> dist(n, 0);
         queue<int> q;
         q.push(0);
+        q.push(INF);
         visited[0] = 1;
-        int step = 0;
+        dist[0] = 0;
+        int level = 0;
         while (!q.empty()) {
-            int size = q.size();
-            for (int i = 0; i < size; i++) {
-                int index = q.front();
-                q.pop();
-                if (index == n - 1) return step;
-                for (int x : m[arr[index]]) {
+            auto temp = q.front();
+            q.pop();
+            if (temp == INF) {
+                level++;
+                if (!q.empty()) q.push(INF);
+            } else {
+                if (temp == n - 1) return level;
+                if (temp - 1 >= 0 and !visited[temp - 1]) {
+                    q.push(temp - 1);
+                    visited[temp - 1] = 1;
+                    dist[temp - 1] = dist[temp] + 1;
+                }
+                if (temp + 1 < n and !visited[temp + 1]) {
+                    q.push(temp + 1);
+                    visited[temp + 1] = 1;
+                    dist[temp + 1] = dist[temp] + 1;
+                }
+
+                vector<int> nbrs = m[arr[temp]];
+                for (auto x : nbrs) {
                     if (!visited[x]) {
-                        q.push(x);
                         visited[x] = 1;
+                        dist[x] = dist[temp] + 1;
+                        q.push(x);
                     }
                 }
-                if (index + 1 < n and !visited[index + 1]) {
-                    q.push(index + 1);
-                    visited[index + 1] = 1;
-                }
-                if (index - 1 >= 0 and !visited[index - 1]) {
-                    q.push(index - 1);
-                }
+
+                m.erase(arr[temp]);
             }
-            step++;
         }
-        return step;
+        
+
+        return -1;
     }
 };
 
 int main() {
     Solution1 s1;
     Solution2 s2;
-    Solution s;
     vector<int> arr = {100, -23, -23, 404, 100, 23, 23, 23, 3, 404};
     vector<int> arr2 = {7, 6, 9, 6, 9, 6, 9, 7};
     vector<int> arr3 = {7, 6, 9, 6, 9, 6, 9, 7};
-    cout << s.minJumps(arr) << endl;
-    cout << s2.minJumps(arr2) << endl;
-    cout << s.minJumps(arr3) << endl;
+    cout << s2.minJumps(arr) << endl;
 }

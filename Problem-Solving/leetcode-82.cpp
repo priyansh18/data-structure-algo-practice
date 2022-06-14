@@ -1,84 +1,62 @@
-// Remove Duplicates from sorted list
-
-// Merge Sort Linked List.
-
-// Split Circular Linked List into two halves.
 
 #include <bits/stdc++.h>
 using namespace std;
-
-class ListNode {
-   public:
-    int data;
-    ListNode* next;
-    ListNode(int d) {
-        data = d;
-        next = NULL;
-    }
-};
-
-void insertionAtTail(ListNode*& head, int data) {
-    if (head == NULL) {
-        ListNode* n = new ListNode(data);
-        head = n;
-        return;
-    }
-
-    ListNode* temp = head;
-
-    while (temp->next != NULL) {
-        temp = temp->next;
-    }
-    ListNode* n = new ListNode(data);
-    temp->next = n;
-    n->next = NULL;
-}
-
-void printLL(ListNode* head) {
-    while (head != NULL) {
-        cout << head->data << "--->";
-        head = head->next;
-    }
-}
-
 class Solution {
    public:
-    ListNode* deleteDuplicates(ListNode* head) {
-        ListNode* dummy = new ListNode(0);
-        dummy->next =head;
-        ListNode* prev = dummy;
-        ListNode* curr = head;
-
-        while (curr) {
-            while (curr->next and prev->next->data == curr->next->data) {
-                curr = curr->next;
+    int largestRectangleArea(vector<int>& heights) {
+        int n = heights.size();
+        vector<int> leftBoundary(n, 0);
+        stack<int> st;
+        for (int i = 0; i < n; i++) {
+            while (st.size() > 0 and heights[st.top()] >= heights[i]) {
+                st.pop();
             }
-
-            if (prev->next == curr) {
-                prev = curr;
+            if (st.size() == 0) {
+                leftBoundary[i] = -1;
             } else {
-                prev->next = curr->next;
+                leftBoundary[i] = st.top();
             }
-            curr = curr->next;
+            st.push(i);
         }
 
-        return dummy->next;
+        vector<int> rightBoundary(n, 0);
+        stack<int> st1;
+        for (int i = n - 1; i >= 0; i--) {
+            while (st1.size() > 0 and heights[st1.top()] >= heights[i]) {
+                st1.pop();
+            }
+            if (st1.size() == 0) {
+                rightBoundary[i] = n;
+            } else {
+                rightBoundary[i] = st1.top();
+            }
+            st1.push(i);
+        }
+
+        for (auto x : leftBoundary) {
+            cout << x << ",";
+        }
+        cout << endl;
+        for (auto x : rightBoundary) {
+            cout << x << ",";
+        }
+        cout << endl;
+
+        int maxArea = 0;
+        for (int i = 0; i < n; i++) {
+            int width = rightBoundary[i] - leftBoundary[i] - 1;
+            int area = width * heights[i];
+            cout << area << endl;
+            maxArea = max(maxArea, area);
+        }
+
+        return maxArea;
     }
 };
 
 int main() {
     Solution s;
-    ListNode* head = NULL;
-    insertionAtTail(head, 4);
-    insertionAtTail(head, 5);
-    insertionAtTail(head, 5);
-    insertionAtTail(head, 6);
-    insertionAtTail(head, 7);
-    insertionAtTail(head, 7);
-    insertionAtTail(head, 8);
-    insertionAtTail(head, 8);
-    printLL(head);
-    cout << endl;
-    ListNode* result = s.deleteDuplicates(head);
-    printLL(result);
+    vector<int> heights = {2, 1, 5, 6, 2, 3};
+    // cout << s2.largestRectangleArea(heights);
+    cout << s.largestRectangleArea(heights);
 }

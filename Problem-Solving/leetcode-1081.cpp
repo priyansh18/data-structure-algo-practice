@@ -1,11 +1,11 @@
-//  Remove all duplicates from the string.
+// Smallest Subsequence of Distinct Characters
 
 #include <bits/stdc++.h>
 using namespace std;
 
 class Solution {
    public:
-    string removeDuplicateLetters(string s) {
+    string smallestSubsequence(string s) {
         vector<int> lastIndex(26, 0);
         vector<bool> currentPresentInStack(26, 0);
         stack<char> st;
@@ -42,6 +42,6 @@ class Solution {
 
 int main() {
     Solution s;
-    string str = "priyanshsinghal";
-    cout << s.removeDuplicateLetters(str) << endl;
+    string str = "cbacdcbc";
+    cout << s.smallestSubsequence(str);
 }

@@ -26,7 +26,7 @@ class Solution {
 
 int main() {
     Solution s;
-    vector<int> nums = {1, 1, 1};
-    int k = 3;
+    vector<int> nums = {10, 20, 10,0,30};
+    int k = 30;
     cout << s.subarraySum(nums,k);
 }

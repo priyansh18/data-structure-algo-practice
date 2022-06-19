@@ -48,7 +48,7 @@ vector<vector<int>> printLevelOrder(TreeNode* root) {
     vector<int> r;
     while (!q.empty()) {
         TreeNode* n = q.front();
-        q.pop();
+        q.pop();ZigZag
         if (n == NULL) {
             res.push_back(r);
             r.clear();

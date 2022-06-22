@@ -13,8 +13,8 @@ class Solution {
         while (s < e) {
             int mid = (s + e) / 2;
             if (mid - 1 >= 0 and mid + 1 < n and nums[mid - 1] != nums[mid] and
-                nums[mid + 1] != nums[mid])
                 return nums[mid];
+                nums[mid + 1] != nums[mid])
             if (mid + 1 < n and nums[mid] == nums[mid + 1] and
                 (mid - s) % 2 == 0)
                 s = mid + 2;

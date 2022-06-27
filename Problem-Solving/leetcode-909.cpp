@@ -79,6 +79,7 @@ using namespace std;
 // };
 
 class Solution {
+   public:
     int snakesAndLadders(vector<vector<int>>& board) {
         int n = board.size();
 
@@ -126,7 +127,6 @@ class Solution {
         }
         return dist[n * n - 1] == -1 ? -1 : dist[n * n - 1];
     }
-   public:
 };
 int main() {
     Solution s;

@@ -1,86 +1,57 @@
-// Remove duplicate from sorted linked list
-
-// Merge Sort Linked List.
-
-// Split Circular Linked List into two halves.
+// Partition List
 
 #include <bits/stdc++.h>
 using namespace std;
 
-class ListNode {
-   public:
-    int data;
+struct ListNode {
+    int val;
     ListNode* next;
-    ListNode(int d) {
-        data = d;
-        next = NULL;
-    }
+    ListNode() : val(0), next(nullptr) {}
+    ListNode(int x) : val(x), next(nullptr) {}
+    ListNode(int x, ListNode* next) : val(x), next(next) {}
 };
-
-void insertionAtTail(ListNode*& head, int data) {
-    if (head == NULL) {
-        ListNode* n = new ListNode(data);
-        head = n;
-        return;
-    }
-
-    ListNode* temp = head;
-
-    while (temp->next != NULL) {
-        temp = temp->next;
-    }
-    ListNode* n = new ListNode(data);
-    temp->next = n;
-    n->next = NULL;
-}
-
-void printLL(ListNode* head) {
-    while (head != NULL) {
-        cout << head->data << "--->";
-        head = head->next;
-    }
-}
 
 class Solution {
    public:
-    ListNode* deleteDuplicates(ListNode*& head) {
-        if (head == NULL or head->next == NULL) {
-            return head;
-        }
+    ListNode* partition(ListNode* head, int x) {
+        if (head == NULL) return NULL;
 
-        ListNode* temp = head;
-        ListNode* temp2 = temp->next;
+        ListNode* smallerTail = NULL;
+        ListNode* biggerTail = NULL;
+        ListNode* smallerHead = NULL;
+        ListNode* biggerHead = NULL;
 
-        while (temp2) {
-            if (temp->data == temp2->data) {
-                ListNode* n = temp2;
-                temp2 = temp2->next;
-                delete n;
+        while (head) {
+            if (head->val < x) {
+                if (smallerTail == NULL) {
+                    smallerTail = smallerHead = head;
+                } else {
+                    smallerTail->next = head;
+                    smallerTail = smallerTail->next;
+                }
             } else {
-                temp->next = temp2;
-                temp = temp2;
-                temp2 = temp2->next;
+                if (biggerTail == NULL) {
+                    biggerTail = biggerHead = head;
+                } else {
+                    biggerTail->next = head;
+                    biggerTail = biggerTail->next;
+                }
             }
+            head = head->next;
         }
-        temp->next=NULL;
 
-        return head;
+        if (smallerHead and biggerHead == NULL) {
+            return smallerHead;
+        }
+
+        if (smallerHead == NULL and biggerHead) {
+            return biggerHead;
+        }
+
+        smallerTail->next = biggerHead;
+        biggerTail->next = NULL;
+        return smallerHead;
     }
 };
 
-int main() {
-    Solution s;
-    ListNode* head = NULL;
-    insertionAtTail(head, 4);
-    insertionAtTail(head, 5);
-    insertionAtTail(head, 5);
-    insertionAtTail(head, 6);
-    insertionAtTail(head, 7);
-    insertionAtTail(head, 7);
-    insertionAtTail(head, 8);
-    insertionAtTail(head, 8);
-    printLL(head);
-    cout << endl;
-    s.deleteDuplicates(head);
-    printLL(head);
-}
+int main() {}

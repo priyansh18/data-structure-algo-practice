@@ -13,20 +13,37 @@ class Node {
 
 class Solution {
    public:
-    Node* flatten(Node* head) {
-        Node* slow = head;
-        Node* fast = head;
-        fast = fast->next;
-        while (!fast->next and !fast->child) {
-            while (slow->child == NULL) {
-                slow = slow->next;
-                fast = fast->next;
+    pair<Node*, Node*> helper(Node* head) {
+        if (head == NULL) return {NULL, NULL};
+        Node* temp = head;
+
+        while (temp) {
+            while (temp and temp->child == NULL) {
+                temp = temp->next;
             }
-            Node* temp2 = slow->child;
-            slow->next = temp2;
-            temp2->prev = slow;
+            if (temp == NULL) break;
+            Node* nextNode = temp->next;
+            temp->next = NULL;
+            auto llpair = helper(temp->child);
+            temp->child = NULL;
+            temp->next = llpair.first;
+            llpair.first->prev = temp;
+            llpair.second->next = nextNode;
+            if (nextNode != NULL) {
+                nextNode->prev = llpair.second;
+            }
+            temp = nextNode;
         }
+
+        Node* tail = head;
+        while (tail->next) {
+            tail = tail->next;
+        }
+
+        return {head, tail};
     }
+
+    Node* flatten(Node* head) { return helper(head).first; }
 };
 
 int main() {}

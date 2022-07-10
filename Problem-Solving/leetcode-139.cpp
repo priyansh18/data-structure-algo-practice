@@ -4,32 +4,23 @@ using namespace std;
 
 class Solution {
    public:
-    bool wordBreakHelper(vector<vector<int>>& dp, string s, set<string> st,
-                         vector<string> wordDict, int i, int j) {
-        if (j == s.length() - 1) return st.find(s.substr(i)) != st.end();
-
-        if (dp[i][j] != -1) {
-            return dp[i][j];
+    bool helper(vector<vector<int>> &dp, string s, set<string> &dict, int i,
+                int j) {
+        if (j == s.length() - 1) return dict.find(s.substr(i)) != dict.end();
+        if (dp[i][j] != -1) return dp[i][j];
+        if (dict.find(s.substr(i, j - i + 1)) != dict.end()) {
+            return dp[i][j] = helper(dp, s, dict, j + 1, j + 1) or
+                              helper(dp, s, dict, i, j + 1);
         }
+        return dp[i][j] = helper(dp, s, dict, i, j + 1);
+    } 
 
-        if (st.find(s.substr(i, j - i + 1)) != st.end()) {
-            if (wordBreakHelper(dp, s, st, wordDict, j + 1, j + 1)) {
-                return dp[i][j] = true;
-            }
-            return dp[i][j] = wordBreakHelper(dp, s, st, wordDict, i, j + 1);
-        }
-
-        return dp[i][j] = wordBreakHelper(dp, s, st, wordDict, i, j + 1);
-    }
-
-    bool wordBreak(string s, vector<string>& wordDict) {
-        set<string> st;
-        for (auto x : wordDict) {
-            st.insert(x);
-        }
-
-        vector<vector<int>> dp(s.size() + 1, vector<int>(s.size() + 1, -1));
-        return wordBreakHelper(dp, s, st, wordDict, 0, 0);
+    bool wordBreak(string s, vector<string> &wordDict) {
+        set<string> dict;
+        for (auto x : wordDict) dict.insert(x);
+        int n = s.length();
+        vector<vector<int>> dp(n, vector<int>(n, -1));
+        return helper(dp, s, dict, 0, 0);
     }
 };
 

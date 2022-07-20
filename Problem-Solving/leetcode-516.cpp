@@ -1,4 +1,5 @@
 // Longest Palindromic Subsequence
+// Also can be generated using lcs by passing string and its reverse.
 
 #include <bits/stdc++.h>
 using namespace std;

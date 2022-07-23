@@ -6,66 +6,56 @@ using namespace std;
 class Solution {
    public:
     string minWindow(string s, string t) {
-        string ans = "";
-        int m = s.size();
-        int n = t.size();
+        // Base Conditions
+        int p = s.length();
+        int n = t.length();
 
-        map<char, int> mp;
+        if (n > p) return "";
+        if (s == t) return s;
 
-        for (int i = 0; i < n; i++) {
-            mp[t[i]]++;
+        unordered_map<char, int> m;
+
+        for (auto x : t) {
+            m[x]++;
         }
 
-        int matchCount = 0;
-        int desiredMatchCount = n;
+        string output = "";
+        int count = m.size();
+        int i = 0;
+        int j = 0;
+        int minWindowSize = INT_MAX;
 
-        map<char, int> ms;
-
-        int i = -1;
-        int j = -1;
-
-        while (true) {
-            bool f1 = false;
-            bool f2 = false;
-            // Acquire
-            while (i < m - 1 && matchCount < desiredMatchCount) {
-                i++;
-                ms[s[i]]++;
-
-                if (ms[s[i]] <= mp[s[i]]) {
-                    matchCount++;
-                }
-                f1 = true;
+        while (j < p) {
+            if (m.find(s[j]) != m.end()) {
+                m[s[j]]--;
+                if (m[s[j]] == 0) count--;
             }
 
-            // Collect answers & release.
-            while (j < i && matchCount == desiredMatchCount) {
-                string CanBeAnAnswer = s.substr(j + 1, i + 1);
-                if (ans.length() == 0 ||
-                    CanBeAnAnswer.length() < ans.length()) {
-                    ans = CanBeAnAnswer;
+            if (count == 0) {
+                if (j - i + 1 < minWindowSize) {
+                    output = s.substr(i, j - i + 1);
+                    minWindowSize = j - i + 1;
                 }
 
-                j++;
-                if (ms[s[i]] == 1) {
-                    ms.erase(s[i]);
-                } else {
-                    ms[s[i]]--;
+                while (count == 0) {
+                    if (m.find(s[i]) != m.end()) {
+                        if (m[s[i]] == 0 || m[s[i]] < 0) {
+                            m[s[i]]++;
+                            if (m[s[i]] > 0) count++;
+                        }
+                    }
+                    i++;
+                    if (j - i + 1 < minWindowSize && count == 0) {
+                        output = s.substr(i, j - i + 1);
+                        minWindowSize = j - i + 1;
+                    }
                 }
-
-                if (ms[s[i]] < mp[s[i]]) {
-                    matchCount--;
-                }
-
-                f2 = true;
             }
 
-            if (f1 == false && f2 == false) {
-                break;
-            }
+            j++;
         }
 
-        return ans;
+        return output;
     }
 };
 

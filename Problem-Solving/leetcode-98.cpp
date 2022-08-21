@@ -106,6 +106,20 @@ class Solution {
     }
 };
 
+class Solution {
+   public:
+    bool helper(TreeNode* root, long long minV, long long maxV) {
+        if (root == NULL) return true;
+        if (root->val <= minV or root->val >= maxV) return false;
+        return helper(root->left, minV, root->val) &&
+               helper(root->right, root->val, maxV);
+    }
+
+    bool isValidBST(TreeNode* root) {
+        return helper(root, LONG_LONG_MIN, LONG_LONG_MAX);
+    }
+};
+
 int main() {
     Solution s;
     TreeNode* root1 = buildLevelOrderTree();

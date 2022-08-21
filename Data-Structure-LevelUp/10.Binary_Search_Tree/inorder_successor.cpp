@@ -77,9 +77,7 @@ node* inorderSuccessor(node* root, int key) {
             }
 
             return newVal;
-        }
-        else {
-          
+        } else {
         }
 
     } else if (root->data > key) {
@@ -87,6 +85,21 @@ node* inorderSuccessor(node* root, int key) {
     } else {
         return inorderSuccessor(root->right, key);
     }
+}
+
+Node* inOrderSuccessor(Node* root, Node* x) {
+    // Your code here
+    Node* successor = NULL;
+    while (root != NULL) {
+        if (x->data < root->data) {
+            successor = root;
+            root = root->left;
+        } else {
+            root = root->right;
+        }
+    }
+
+    return successor;
 }
 
 int main() {

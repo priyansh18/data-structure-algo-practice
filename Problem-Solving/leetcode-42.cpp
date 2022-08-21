@@ -5,7 +5,7 @@ using namespace std;
 
 class Solution {
    public:
-    int largestRectangleArea(vector<int>& heights) {
+    int trap(vector<int>& heights) {
         int n = heights.size();
         vector<int> leftBoundary(n);
         leftBoundary[0] = heights[0];
@@ -30,8 +30,39 @@ class Solution {
     }
 };
 
+class Solution2 {
+   public:
+    //    This Approach is making sure that if my curr left is less than or
+    //    equal which means that there is some building greater than curr left
+    //    or viceversa.
+    int trap(vector<int> heights) {
+        int n = heights.size();
+        int l = 0;
+        int r = n - 1;
+        int leftMax = 0;
+        int rightMax = 0;
+        int water = 0;
+
+        while (l <= r) {
+            if (heights[l] <= heights[r]) {
+                heights[l] > leftMax ? leftMax = heights[l]
+                                     : water += leftMax - heights[l];
+                l++;
+            } else {
+                heights[r] > rightMax ? rightMax = heights[r]
+                                      : water += rightMax - heights[r];
+                r--;
+            }
+        }
+
+        return water;
+    }
+};
+
 int main() {
     Solution s;
+    Solution2 s2;
     vector<int> heights = {4, 2, 0, 2, 3, 5};
-    cout << s.largestRectangleArea(heights) << endl;
+    cout << s.trap(heights) << endl;
+    cout << s2.trap(heights) << endl;
 }

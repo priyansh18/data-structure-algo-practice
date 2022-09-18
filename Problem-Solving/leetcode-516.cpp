@@ -13,7 +13,7 @@ class Solution {
         if (dp[i][j] != -1) return dp[i][j];
         int ans = 0;
 
-        if (s[i] == s[i]) {
+        if (s[i] == s[j]) {
             ans = 1 + helper(s, i + 1, j - 1);
         } else {
             ans = max(helper(s, i + 1, j), helper(s, i, j - 1)) + 1;
